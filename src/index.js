@@ -2,7 +2,7 @@ import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
 
-import models from './models';
+import models from './models/index.js';
 import routes from './routes';
 
 const app = express();
