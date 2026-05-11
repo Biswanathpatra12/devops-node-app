@@ -3,23 +3,16 @@ import cors from 'cors';
 import express from 'express';
 
 import models from './models/index.js';
-import routes from './routes';
+import * as routes from './routes/index.js';
 
 const app = express();
 
-// * Application-Level Middleware * //
-
-// Third-Party Middleware
-
+// Middleware
 app.use(cors());
-
-// Built-In Middleware
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Custom Middleware
-
+// Custom context
 app.use((req, res, next) => {
   req.context = {
     models,
@@ -28,14 +21,15 @@ app.use((req, res, next) => {
   next();
 });
 
-// * Routes * //
-
+// Routes
 app.use('/session', routes.session);
 app.use('/users', routes.user);
 app.use('/messages', routes.message);
 
-// * Start * //
+// PORT FIX (IMPORTANT)
+const PORT = process.env.PORT || 3000;
 
-app.listen(process.env.PORT, () =>
-  console.log(`Example app listening on port ${process.env.PORT}!`),
-);
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
